@@ -14,7 +14,7 @@ class StorageService {
 
   writeFile(file, meta) {
     const filename = +new Date() + meta.filename;
-    const filePath = path.resolve(__dirname, `../../../uploads/${filename}`);
+    const directory = path.resolve(__dirname, '../../../uploads/images');
 
     // Ensure uploads directory exists
     const uploadDir = path.dirname(filePath);

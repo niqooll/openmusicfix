@@ -1,7 +1,9 @@
+// Kode Perbaikan
 const Joi = require('joi');
 
 const ImageHeadersSchema = Joi.object({
-  'content-type': Joi.string().valid('image/apng', 'image/avif', 'image/gif', 'image/jpeg', 'image/png', 'image/svg+xml', 'image/webp').required(),
+  // Cek apakah content-type DIAWALI dengan "image/"
+  'content-type': Joi.string().pattern(/^image\//).required(),
 }).unknown();
 
 module.exports = { ImageHeadersSchema };

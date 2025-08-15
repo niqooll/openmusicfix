@@ -1,3 +1,4 @@
+// Kode Perbaikan
 const nodemailer = require('nodemailer');
 const config = require('../../utils/config');
 
@@ -6,28 +7,31 @@ class MailService {
     this._transporter = nodemailer.createTransport({
       host: config.smtp.host,
       port: config.smtp.port,
-      secure: false, // true for 465, false for other ports
+      secure: true, // true untuk port 465
       auth: {
         user: config.smtp.user,
         pass: config.smtp.password,
       },
+      // TAMBAHKAN BLOK KODE INI
+      tls: {
+        rejectUnauthorized: false,
+      },
     });
   }
 
-  async sendEmail(targetEmail, content) {
+  sendEmail(targetEmail, content) {
     const message = {
-      from: config.smtp.user,
+      from: 'OpenMusic API',
       to: targetEmail,
       subject: 'Ekspor Playlist',
-      text: 'Terlampir hasil dari ekspor playlist Anda',
+      text: 'Terlampir hasil ekspor playlist',
       attachments: [
         {
-          filename: 'playlist.json',
+          filename: 'playlists.json',
           content,
         },
       ],
     };
-
     return this._transporter.sendMail(message);
   }
 }

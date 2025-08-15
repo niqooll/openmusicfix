@@ -13,18 +13,12 @@ class UploadsHandler {
     const { cover } = request.payload;
     const { id } = request.params;
 
+    // TAMBAHKAN BARIS INI UNTUK MELIHAT HEADER
+    console.log('HEADER DARI TEST CASE:', cover.hapi.headers);
+
     this._validator.validateImageHeaders(cover.hapi.headers);
 
-    let filename;
-
-    if (process.env.AWS_BUCKET_NAME) {
-      // Use S3
-      filename = await this._storageService.uploadToS3(cover, cover.hapi);
-    } else {
-      // Use local storage
-      filename = await this._storageService.writeFile(cover, cover.hapi);
-    }
-
+    const filename = await this._storageService.writeFile(cover, cover.hapi);
     await this._albumsService.addAlbumCover(id, filename);
 
     const response = h.response({
