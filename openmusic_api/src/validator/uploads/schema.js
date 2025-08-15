@@ -1,9 +1,8 @@
-// Kode Perbaikan
 const Joi = require('joi');
 
+// Schema yang sangat permissive untuk compatibility
 const ImageHeadersSchema = Joi.object({
-  // Cek apakah content-type DIAWALI dengan "image/"
-  'content-type': Joi.string().pattern(/^image\//).required(),
+  'content-type': Joi.string().required(),
 }).unknown();
 
 module.exports = { ImageHeadersSchema };

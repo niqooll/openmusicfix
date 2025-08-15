@@ -9,14 +9,19 @@ const init = async () => {
   const playlistsService = new PlaylistsService();
   const mailService = new MailService();
 
+  // Ekstrak nama queue ke dalam variabel
+  const queue = 'export:playlist';
+
   const connection = await amqp.connect(config.rabbitMq.server);
   const channel = await connection.createChannel();
 
-  await channel.assertQueue('export:playlist', {
+  // Gunakan variabel queue
+  await channel.assertQueue(queue, {
     durable: true,
   });
 
-  channel.consume('export:playlist', async (message) => {
+  // Gunakan variabel queue lagi
+  channel.consume(queue, async (message) => {
     try {
       const { playlistId, targetEmail } = JSON.parse(message.content.toString());
 

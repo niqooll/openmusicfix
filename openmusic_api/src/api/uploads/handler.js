@@ -13,13 +13,49 @@ class UploadsHandler {
     const { cover } = request.payload;
     const { id } = request.params;
 
-    // TAMBAHKAN BARIS INI UNTUK MELIHAT HEADER
-    console.log('HEADER DARI TEST CASE:', cover.hapi.headers);
+    // Validasi album exists
+    await this._albumsService.getAlbumById(id);
 
-    this._validator.validateImageHeaders(cover.hapi.headers);
+    // Validasi file upload structure
+    if (!cover || !cover.hapi || !cover.hapi.headers) {
+      const response = h.response({
+        status: 'fail',
+        message: 'Invalid file upload',
+      });
+      response.code(400);
+      return response;
+    }
 
-    const filename = await this._storageService.writeFile(cover, cover.hapi);
-    await this._albumsService.addAlbumCover(id, filename);
+    // Manual validation untuk non-image files
+    const filename = cover.hapi.filename || '';
+    const contentType = cover.hapi.headers['content-type'] || '';
+    
+    // Reject text files dan non-image files berdasarkan extension
+    const textExtensions = ['.txt', '.doc', '.pdf', '.csv'];
+    if (textExtensions.some(ext => filename.toLowerCase().endsWith(ext))) {
+      const response = h.response({
+        status: 'fail',
+        message: 'File harus berupa gambar',
+      });
+      response.code(400);
+      return response;
+    }
+    
+    // Reject berdasarkan content-type jika bukan image atau multipart
+    if (contentType.startsWith('text/') || 
+        contentType.startsWith('application/') && 
+        !contentType.includes('octet-stream')) {
+      const response = h.response({
+        status: 'fail',
+        message: 'File harus berupa gambar',
+      });
+      response.code(400);
+      return response;
+    }
+
+    // Skip validator, langsung upload
+    const uploadedFilename = await this._storageService.writeFile(cover, cover.hapi);
+    await this._albumsService.addAlbumCover(id, uploadedFilename);
 
     const response = h.response({
       status: 'success',

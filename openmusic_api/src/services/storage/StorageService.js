@@ -15,11 +15,11 @@ class StorageService {
   writeFile(file, meta) {
     const filename = +new Date() + meta.filename;
     const directory = path.resolve(__dirname, '../../../uploads/images');
+    const filePath = path.join(directory, filename); // FIX: Tambahkan definisi filePath
 
     // Ensure uploads directory exists
-    const uploadDir = path.dirname(filePath);
-    if (!fs.existsSync(uploadDir)) {
-      fs.mkdirSync(uploadDir, { recursive: true });
+    if (!fs.existsSync(directory)) { // FIX: Gunakan directory, bukan uploadDir
+      fs.mkdirSync(directory, { recursive: true });
     }
 
     const fileStream = fs.createWriteStream(filePath);
@@ -44,7 +44,7 @@ class StorageService {
   }
 
   deleteFile(filename) {
-    const filePath = path.resolve(__dirname, `../../../uploads/${filename}`);
+    const filePath = path.resolve(__dirname, `../../../uploads/images/${filename}`); // FIX: Tambahkan /images
     
     if (fs.existsSync(filePath)) {
       fs.unlinkSync(filePath);

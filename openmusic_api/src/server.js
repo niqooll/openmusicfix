@@ -190,4 +190,51 @@ process.on('unhandledRejection', (err) => {
   process.exit(1);
 });
 
+
+
+// Handler debug khusus
+const debugUploadHandler = (request, h) => {
+  console.log('=== DEBUG POSTMAN REQUEST ===');
+  console.log('Method:', request.method);
+  console.log('Path:', request.path);
+  console.log('Headers:', request.headers);
+  console.log('Payload keys:', Object.keys(request.payload || {}));
+  
+  if (request.payload && request.payload.cover) {
+    const cover = request.payload.cover;
+    console.log('Cover type:', typeof cover);
+    console.log('Cover keys:', Object.keys(cover));
+    
+    if (cover.hapi) {
+      console.log('Cover hapi keys:', Object.keys(cover.hapi));
+      console.log('Cover hapi headers:', cover.hapi.headers);
+      console.log('Cover hapi filename:', cover.hapi.filename);
+    } else {
+      console.log('Cover hapi: NOT EXISTS');
+    }
+  }
+  
+  return {
+    status: 'debug',
+    message: 'Check console for debug info',
+    requestHeaders: request.headers,
+    payloadKeys: Object.keys(request.payload || {}),
+  };
+};
+
+// Tambahkan route debug ini ke server Anda
+const debugRoute = {
+  method: 'POST',
+  path: '/debug/upload/{id}',
+  handler: debugUploadHandler,
+  options: {
+    payload: {
+      allow: 'multipart/form-data',
+      multipart: true,
+      output: 'stream',
+      maxBytes: 512000,
+    },
+  },
+};
+
 init();
