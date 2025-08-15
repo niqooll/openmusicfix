@@ -1,0 +1,35 @@
+{
+  "name": "openmusicv2",
+  "version": "3.0.0",
+  "description": "OpenMusic API v3 - Submission for Dicoding Backend Fundamental",
+  "main": "index.js",
+  "scripts": {
+    "setup": "chmod +x setup.sh && ./setup.sh",
+    "health": "node health-check.js",
+    "start:api": "cd openmusic_api && npm start",
+    "start:consumer": "cd openmusic_consumer && npm start",
+    "dev:api": "cd openmusic_api && npm run dev",
+    "dev:consumer": "cd openmusic_consumer && npm run dev",
+    "lint": "cd openmusic_api && npm run lint && cd ../openmusic_consumer && npm run lint",
+    "lint:fix": "cd openmusic_api && npm run lint:fix && cd ../openmusic_consumer && npm run lint:fix"
+  },
+  "keywords": [
+    "music",
+    "api",
+    "hapi",
+    "rabbitmq",
+    "redis",
+    "s3",
+    "submission",
+    "dicoding"
+  ],
+  "author": "TSC Team",
+  "license": "ISC",
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "workspaces": [
+    "openmusic_api",
+    "openmusic_consumer"
+  ]
+}

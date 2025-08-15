@@ -1,7 +1,7 @@
 {
   "name": "openmusic-api",
-  "version": "1.0.0",
-  "description": "OpenMusic API for managing albums and songs",
+  "version": "3.0.0",
+  "description": "OpenMusic API v3 for managing albums, songs, playlists, and exports",
   "main": "src/server.js",
   "scripts": {
     "start": "node src/server.js",
@@ -16,7 +16,10 @@
   "keywords": [
     "music",
     "api",
-    "hapi"
+    "hapi",
+    "rabbitmq",
+    "redis",
+    "s3"
   ],
   "author": "TSC Team",
   "license": "ISC",
@@ -25,14 +28,17 @@
     "@hapi/inert": "^7.1.0",
     "@hapi/jwt": "^3.2.0",
     "@hapi/vision": "^7.0.3",
+    "amqplib": "^0.10.3",
     "auto-bind": "^4.0.0",
-    "bcrypt": "^6.0.0",
+    "aws-sdk": "^2.1501.0",
+    "bcrypt": "^5.1.1",
     "dotenv": "^16.3.1",
     "hapi-swagger": "^17.3.2",
     "joi": "^17.11.0",
     "jsonwebtoken": "^9.0.2",
     "nanoid": "^3.3.7",
     "pg": "^8.11.3",
+    "redis": "^4.6.10",
     "winston": "^3.17.0",
     "winston-daily-rotate-file": "^5.0.0"
   },

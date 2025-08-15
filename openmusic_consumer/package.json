@@ -1,0 +1,32 @@
+{
+  "name": "openmusic-consumer",
+  "version": "1.0.0",
+  "description": "OpenMusic Consumer for processing playlist exports",
+  "main": "src/consumer.js",
+  "scripts": {
+    "start": "node src/consumer.js",
+    "dev": "nodemon src/consumer.js",
+    "lint": "eslint src/",
+    "lint:fix": "eslint src/ --fix"
+  },
+  "keywords": [
+    "consumer",
+    "rabbitmq",
+    "email",
+    "export"
+  ],
+  "author": "TSC Team",
+  "license": "ISC",
+  "dependencies": {
+    "amqplib": "^0.10.3",
+    "dotenv": "^16.3.1",
+    "nodemailer": "^6.9.7",
+    "pg": "^8.11.3"
+  },
+  "devDependencies": {
+    "eslint": "^8.57.1",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.32.0",
+    "nodemon": "^3.0.1"
+  }
+}
